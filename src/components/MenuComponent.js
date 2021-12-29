@@ -3,14 +3,16 @@ import { Card, CardImg, CardImgOverlay, CardText,CardBody, CardTitle } from 'rea
 import DishdetailComponent from './DishdetailComponent';
 
 const MenuComponent = ({dishes}) => {
-    let [selectedDish,setSelectedDish] = useState([])
+    let [selectedDish,setSelectedDish] = useState(0)
+    
     const menu = dishes.map((dish) => {
+        console.log(dish)
         return (
             <div key = {dish.id} className = "col-12 col-md-5 m-1">
-                <Card onClick={() => setSelectedDish(selectedDish = dish)}>
+                <Card onClick={() => setSelectedDish(dish)}>
                     <CardImg width = "100%" src={dish.image} alt={dish.name} />
                     <CardImgOverlay>
-                        <CardTitle>{dish.name}</CardTitle>
+                        <CardTitle className='title'>{dish.name}</CardTitle>
                     </CardImgOverlay>
                     
                 </Card>    
@@ -20,23 +22,23 @@ const MenuComponent = ({dishes}) => {
 
 
     const renderDish = (dish) => {
-        if (dish !== null ) {
-            return(
-                <Card>
-                    <CardImg width = "50%" src={dish.image} alt={dish.name} />
-                    <CardBody>
-                        <CardTitle>{dish.name}</CardTitle>
-                        <CardText>{dish.description}</CardText>   
-                    </CardBody>
+        // if (dish !== null ) {
+        return(
+            <Card>
+                <CardImg width = "50%" src={dish.image} alt={dish.name} />
+                <CardBody>
+                    <CardTitle className='title'>{dish.name}</CardTitle>
+                    <CardText>{dish.description}</CardText>   
+                </CardBody>
 
-                </Card>
-            )
-        }
-        else {
-            return(
-                <div></div>
-            );
-        }
+            </Card>
+        )
+        // }
+        // else {
+        //     return(
+        //         <div>Please select a dish</div>
+        //     );
+        // }
     }
     
     return (
@@ -48,11 +50,7 @@ const MenuComponent = ({dishes}) => {
                     <div className='col-12 col-md-5'>
                         {renderDish(selectedDish)}
                     </div>
-                    {/* <div className='col-12 col-md-5'>
-                        {renderComments(selectedDish)}
-                    </div> */}
-                    <DishdetailComponent selectedDish = {selectedDish} />
-                    
+                    <DishdetailComponent Dish={selectedDish.comments} />
                 </div> 
         </div>
     )
