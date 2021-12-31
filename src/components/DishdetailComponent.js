@@ -7,14 +7,15 @@ import React from 'react'
                 for(let comment in Dish) {
                     data.push(Dish[comment])
                 }
-            return(
+            if(data.id != null){
+                return(
                 <main>
                     <h3 style={{textAlign : 'center'}} >Comments</h3>
                     <ul style={{listStyleType : 'none'}}>
                         {data.map((comment) => (<li key={comment.id}><br></br>{comment.comment}<br></br><br></br><span > --{comment.author} </span> <span > , {comment.date}</span></li>))}
                     </ul>
                 </main>        
-            )
+            )}
         }
         else {
             return(
