@@ -10,6 +10,7 @@ import MenuComponent from './MenuComponent';
 import ContactComponent from './ContactComponent';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import DishdetailComponent from './DishdetailComponent';
+import AboutComponent from './AboutComponent';
 
 
 const MainComponent = () => {
@@ -17,6 +18,7 @@ const MainComponent = () => {
     const comments = COMMENTS;
     const leaders = LEADERS;
     const promotions = PROMOTIONS;
+    console.log(comments)
     
     const HomePage = () => {
         return (
@@ -30,7 +32,7 @@ const MainComponent = () => {
     const DishWithId = ({match}) => {
         return (
             <DishdetailComponent dish={dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]}
-            comments={comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))[0]}
+            comments={comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))}
             />
         )
     }
@@ -41,6 +43,7 @@ const MainComponent = () => {
             {/* <MenuComponent dishes = {dishes} /> */}
             <Switch>
                 <Route path="/home" component={HomePage} />
+                <Route path="/aboutus" component={() => <AboutComponent leaders = {leaders} />} />
                 <Route exact path= "/menu" component={() => <MenuComponent dishes = {dishes} />} />
                 <Route path="/menu/:dishId" component={DishWithId} />
                 <Route exact path='/contactus' component ={ContactComponent} />

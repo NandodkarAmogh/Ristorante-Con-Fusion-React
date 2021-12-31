@@ -1,21 +1,24 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardImg, CardTitle, CardText } from 'reactstrap';
+
     
-    const renderComments = (Dish) => {
-        if (Dish !== null ) {
+    const renderComments = (comments) => {
+        if (comments != null ) {
+            
             const data = []
 
-                for(let comment in Dish) {
-                    data.push(Dish[comment])
+                for(let comment in comments) {
+                    data.push(comments[comment])
                 }
-            if(data.id != null){
-                return(
+            return(
                 <main>
                     <h3 style={{textAlign : 'center'}} >Comments</h3>
                     <ul style={{listStyleType : 'none'}}>
                         {data.map((comment) => (<li key={comment.id}><br></br>{comment.comment}<br></br><br></br><span > --{comment.author} </span> <span > , {comment.date}</span></li>))}
                     </ul>
                 </main>        
-            )}
+            )
         }
         else {
             return(
@@ -24,39 +27,57 @@ import React from 'react'
         }
     }
 
+ 
+    const renderDish = (dish) => {
+        if (dish != null ) {
+        return(
+            
+            <Card>
+                <CardImg width = "60%" src={dish.image} alt={dish.name} />
+                <CardBody>
+                    <CardTitle className='title'>{dish.name}</CardTitle>
+                    <CardText>{dish.description}</CardText>   
+                </CardBody>
+                
+            </Card>
+        )}
+        else {
+            return (
+                <div></div>
+            )
+        };
+    }
 
-const DishdetailComponent = ({Dish}) => {
-    // const renderComments = (Dish) => {
-    //     if (Dish !== null ) {
-    //         const data = []
 
-    //             for(let comment in Dish) {
-    //                 data.push(Dish[comment])
-    //             }
-    //         return(
-    //             <main className=''>
-    //                 <h4 >Comments</h4>
-    //                 <ul style={{listStyleType : 'none'}}>
-    //                     {data.map((comment) => (<li key={comment.id}><br></br>{comment.comment}<br></br><br></br><span > --{comment.author} </span> <span > , {comment.date}</span></li>))}
-    
-                        
-    //                 </ul>
-    //             </main>        
-    //         )
-    //     }
-    //     else {
-    //         return(
-    //             <div></div>
-    //         )
-    //     }
-    // }
-      
-    return (
-        <div className='col-12 col-md-5 m-1'>
-            {renderComments(Dish)}
-            {/* <RenderComments Dish = {Dish} /> */}
-        </div>
-    )
+const DishdetailComponent = (props) => {
+    if (props.dish != null)  
+        return (
+            <div className="container">
+                <div className="row">
+                    <Breadcrumb>
+                        <BreadcrumbItem><Link to='/menu'>Menu</Link></BreadcrumbItem>
+                        <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+                    </Breadcrumb>
+                    <div className="col-12">
+                        <h3>{props.dish.name}</h3>
+                        <hr />    
+                    </div>    
+                 </div>
+                <div className="row">
+                    <div className="col-12 col-md-5 m-1">
+                        {renderDish(props.dish)}
+                    </div>
+                    <div className="col-12 col-md-5 m-1">
+                        {renderComments(props.comments)}
+                    </div>
+                    
+                </div>
+            </div>
+        )
+    else
+        return (
+            <div></div>
+        )
 }
 
 
