@@ -1,16 +1,17 @@
 import React from 'react';
-import HomeComponent from './HomeComponent';
 import { DISHES } from '../shared/dishes';
 import { COMMENTS } from '../shared/comments';
 import { LEADERS } from '../shared/leaders';
 import { PROMOTIONS } from '../shared/promotions';
+import HomeComponent from './HomeComponent';
 import HeaderComponent from './HeaderComponent';
 import FooterComponent from './FooterComponent';
 import MenuComponent from './MenuComponent';
 import ContactComponent from './ContactComponent';
-import { Switch, Route, Redirect } from 'react-router-dom';
 import DishdetailComponent from './DishdetailComponent';
 import AboutComponent from './AboutComponent';
+import { Switch, Route, Redirect } from 'react-router-dom';
+
 
 
 const MainComponent = () => {
