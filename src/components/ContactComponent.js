@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Breadcrumb, BreadcrumbItem, Button, Form, FormGroup, Label, Input, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import './ContactComponent.css'
 
 const ContactComponent = () => {
     
-    const [ allValues, setAllValues] = useState ({
+    const initialValues = {
         firstName: '',
         lastName: '',
         telNum: '',
@@ -12,24 +13,77 @@ const ContactComponent = () => {
         agree: false,
         message: '',
         contactType: 'Tel.',
-    })
+        
+    };
+    
+    const [ formValues, setformValues] = useState (initialValues);
+    const [formErrors, setFormErrors] = useState({});
+    const [isSubmit, setIsSubmit] = useState(false);
     
     const handleInputChange = (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-        setAllValues({
+        setformValues({
+            ...formValues,
             [name] : value
-            // [event.target.name]: event.target.value
-        })
+            
+        });
+        console.log(formValues)
     }
 
     const handleSubmit = (event) => {
-        console.log('current state is: ', allValues);
+        console.log('current state is: ', formValues);
         event.preventDefault();
+        setFormErrors(validate(formValues));
+        setIsSubmit(true);
+        setformValues(initialValues)
+    }
+
+    useEffect(() => {
+        console.log(formErrors);
+        if(Object.keys(formErrors).length === 0 && isSubmit) {
+            console.log(formValues);
+        }
+    }, [formErrors])
+
+    const validate = (values) => {
+        const errors = {};
+        const reg = /^\d{10}$/;
+        const reg1 =/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+
+        if (!values?.firstName){
+            errors.firstName="First Name is required"
+        }
+        else if(values.firstName?.length < 3) {
+            errors.firstName = "First Name must be between 3 to 8 alphabets!";
+        }else if (values.firstName?.length > 10) {
+            errors.firstName = "First Name too long!";
+        }
+        if (!values?.lastName){
+            errors.lastName="Last Name is required"
+        }
+        else if(values.lastName?.length < 3) {
+            errors.lastName = "Last Name must be between 3 to 8 alphabets!";
+        }else if (values.lastName?.length > 10) {
+            errors.lastName = "Last Name too long!";
+        }
+        if(!values?.email) {
+            errors.email = "Email is required!";
+        }else if (reg1.test(values?.email)) {
+            errors.email = "This is not a valid email format!";
+        }
+        if(!values?.telNum) {
+            errors.telNum = "Tel. number is required!";
+        }else if (reg.test(values?.telNum)) {
+            errors.telNum = "This is not a valid tel. number!";
+        }
+
+        return errors;
     }
 
     return (
+        
         <div className="container">
             <div className="row">
                 <Breadcrumb>
@@ -74,27 +128,37 @@ const ContactComponent = () => {
                 <div className="col-12 col-md-9">
                     <Form onSubmit={handleSubmit}>
                         <FormGroup row>
-                            <Label htmlFor= "firstname" md={2}>
+                            <Label htmlFor= "firstName" md={2}>
                                 First Name
                             </Label>
                             <Col md={10}>
-                                <Input type='text' id='firstname' name='firstname' placeholder='First Name' value={allValues.firstName} onChange={handleInputChange} />
+                                <Input type='text' id='firstName' name='firstName' 
+                                placeholder='First Name' value={formValues.firstName}
+                                onChange={handleInputChange} />
+                                <p className='error'>{formErrors.firstName}</p>
+                                
                             </Col>
                         </FormGroup>
                         <FormGroup row>
-                            <Label htmlFor= "lastname" md={2}>
+                            <Label htmlFor= "lastName" md={2}>
                                 Last Name
                             </Label>
                             <Col md={10}>
-                                <Input type='text' id='lastname' name='lastname' placeholder='Last Name' value={allValues.lastName} onChange={handleInputChange} />
+                                <Input type='text' id='lastName' name='lastName'
+                                placeholder='Last Name' value={formValues.lastName}
+                                onChange={handleInputChange} />
+                                <p className='error'>{formErrors.lastName}</p>
+                                
                             </Col>
                         </FormGroup>
                         <FormGroup row>
-                            <Label htmlFor= "telnum" md={2}>
+                            <Label htmlFor= "telNum" md={2}>
                                 Contact Tel.
                             </Label>
                             <Col md={10}>
-                                <Input type='tel' id='telnum' name='telnum' placeholder='Tel. Number' value={allValues.telNum} onChange={handleInputChange} />
+                                <Input type='tel' id='telNum' name='telNum' placeholder='Tel. Number' value={formValues.telNum} 
+                                onChange={handleInputChange} />
+                                <p className='error'>{formErrors.telNum}</p>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
@@ -102,20 +166,23 @@ const ContactComponent = () => {
                                 Email
                             </Label>
                             <Col md={10}>
-                                <Input type='email' id='email' name='email' placeholder='Email' value={allValues.email} onChange={handleInputChange}/>
+                                <Input type='email' id='email' name='email' placeholder='Email' 
+                                value={formValues.email}
+                                onChange={handleInputChange}/>
+                                <p className='error'>{formErrors.email}</p>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Col md={{size: 6, offset: 2}}>
                                 <FormGroup check>
                                     <Label check>
-                                        <Input type='checkbox' name='agree' checked={allValues.agree} onChange={handleInputChange} />{' '}<strong>May we contact you?</strong>
+                                        <Input type='checkbox' name='agree' checked={formValues.agree} onChange={handleInputChange} />{' '}<strong>May we contact you?</strong>
                                     </Label>
                                 </FormGroup>
                                 
                             </Col>
                             <Col md={{size: 3, offset: 1}}>
-                                <Input type='select' name='contactType' value={allValues.contactType} onChange={handleInputChange} >
+                                <Input type='select' name='contactType' value={formValues.contactType} onChange={handleInputChange} >
                                     <option>Tel.</option>
                                     <option>Email</option>
                                 </Input>
@@ -126,12 +193,12 @@ const ContactComponent = () => {
                                 Your Feedback
                             </Label>
                             <Col md={10}>
-                                <Input type='textarea' id='message' rows='12' name='message' value={allValues.message} onChange={handleInputChange} />
+                                <Input type='textarea' id='message' rows='12' name='message' value={formValues.message} onChange={handleInputChange} />
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Col md={{size:10, offset: 2}}>
-                                <Button type='submit' color='primary' onClick={handleSubmit}>
+                                <Button type='submit' color='primary' >
                                     Send Feedback
                                 </Button>
                             </Col>
