@@ -2,18 +2,22 @@ import React from 'react'
 import RenderCardComponent from './RenderCardComponent'
 
 
-const HomeComponent = (props) => {
+const HomeComponent = ({dishes, leaders, promotions}) => {
+    
+    const dish = dishes.filter((dish) => dish.featured === true)[0];
+    const leader = leaders.filter((leader) => leader.featured === true)[0];
+    const promotion = promotions.filter((promotion) => promotion.featured === true)[0]
     return (
         <div className='container'>
             <div className="row align-items-start">
                 <div className="col-12 col-md m-1">
-                    <RenderCardComponent item = {props.dish}/>
+                    <RenderCardComponent item = {dish}/>
                 </div>
                 <div className="col-12 col-md m-1">
-                    <RenderCardComponent item = {props.promotion}/>
+                    <RenderCardComponent item = {promotion}/>
                 </div>
                 <div className="col-12 col-md m-1">
-                    <RenderCardComponent item = {props.leader}/>
+                    <RenderCardComponent item = {leader}/>
                 </div>
             </div>
         </div>

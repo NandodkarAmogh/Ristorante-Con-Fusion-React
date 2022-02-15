@@ -1,51 +1,62 @@
 import React from 'react';
-import { DISHES } from '../shared/dishes';
-import { COMMENTS } from '../shared/comments';
-import { LEADERS } from '../shared/leaders';
-import { PROMOTIONS } from '../shared/promotions';
 import HomeComponent from './HomeComponent';
 import HeaderComponent from './HeaderComponent';
 import FooterComponent from './FooterComponent';
 import MenuComponent from './MenuComponent';
 import ContactComponent from './ContactComponent';
 import DishdetailComponent from './DishdetailComponent';
+import DishdetailComponent1 from './DishdetailComponent1';
 import AboutComponent from './AboutComponent';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { addComment } from '../redux/dishes/ActionCreators';
 
-
-
-const MainComponent = () => {
-    const dishes = DISHES;
-    const comments = COMMENTS;
-    const leaders = LEADERS;
-    const promotions = PROMOTIONS;
-    console.log(comments)
-    
-    const HomePage = () => {
-        return (
-            <HomeComponent dish = {dishes.filter((dish) => dish.featured === true)[0]}
-            leader = {leaders.filter((leader) => leader.featured === true)[0]}
-            promotion = {promotions.filter((promotion) => promotion.featured === true)[0]} 
-            />
-        )
+const mapStateToProps = state => {
+    console.log(state)
+    return {
+        dishes:state.dishes,
+        comments: state.comments,
+        promotions: state.promotions,
+        leaders: state.leaders
+        
+        
     }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addComment : (dishId,rating, author, comment) => dispatch(addComment(dishId,rating, author, comment))
+    }
+}
+const MainComponent = (props) => {
+    console.log(props.addComment)
+    
     
     const DishWithId = ({match}) => {
         return (
-            <DishdetailComponent dish={dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]}
-            comments={comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))}
+            <DishdetailComponent dish={props.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]}
+            comments={props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))}
+            addComment = {props.addComment}
             />
         )
     }
-
+    // const DishWithId = ({match}) => {
+    //     return (
+    //         <DishdetailComponent1 dish={props.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]}
+    //         comments={props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))}
+    //         addComment = {props.addComment}
+    //         />
+    //     )
+    // }
     return (
-        <div>
+        <div style={{backgroundColor: '#fafafa'}}>
             <HeaderComponent />
-            {/* <MenuComponent dishes = {dishes} /> */}
+            
+
             <Switch>
-                <Route path="/home" component={HomePage} />
-                <Route path="/aboutus" component={() => <AboutComponent leaders = {leaders} />} />
-                <Route exact path= "/menu" component={() => <MenuComponent dishes = {dishes} />} />
+                <Route path="/home" component={() => <HomeComponent dishes={props.dishes} leaders={props.leaders} promotions={props.promotions}/>} />
+                <Route path="/aboutus" component={() => <AboutComponent leaders = {props.leaders} />} />
+                <Route exact path= "/menu" component={() => <MenuComponent dishes = {props.dishes} />} />
                 <Route path="/menu/:dishId" component={DishWithId} />
                 <Route exact path='/contactus' component ={ContactComponent} />
                 <Redirect to="/home" />
@@ -55,4 +66,6 @@ const MainComponent = () => {
     )
 }
 
-export default MainComponent
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MainComponent))
+
+
