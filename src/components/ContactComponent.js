@@ -1,94 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Breadcrumb, BreadcrumbItem, Button, Form, FormGroup, Label, Input, Col, Row } from 'reactstrap';
-import { LocalForm, Control, Errors } from 'react-redux-form';
+import { Breadcrumb, BreadcrumbItem, Button, Label, Input, Col, Row } from 'reactstrap';
+import { Form, Control, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
 import './ContactComponent.css';
 
-const ContactComponent = () => {
-    
-    // const initialValues = {
-    //     firstName: '',
-    //     lastName: '',
-    //     telNum: '',
-    //     email: '',
-    //     agree: false,
-    //     message: '',
-    //     contactType: 'Tel.',
-        
-    // };
-    
-    
-    // const [ formValues, setformValues] = useState (initialValues);
-    // const [formErrors, setFormErrors] = useState({});
-    // const [isSubmit, setIsSubmit] = useState(false);
-
-    // console.log(formValues.email)
-    
-    // const handleInputChange = (event) => {
-    //     const target = event.target;
-    //     const value = target.type === 'checkbox' ? target.checked : target.value;
-    //     const name = target.name;
-    //     setformValues({
-    //         ...formValues,
-    //         [name] : value
-            
-    //     });
-    //     console.log(formValues)
-    // }
-
-    // const handleSubmit = (event) => {
-    //     console.log('current state is: ', formValues);
-    //     event.preventDefault();
-    //     setFormErrors(validate(formValues));
-    //     setIsSubmit(true);
-    //     setformValues(initialValues)
-    // }
-
-    // useEffect(() => {
-    //     console.log(formErrors);
-    //     if(Object.keys(formErrors).length === 0 && isSubmit) {
-    //         console.log(formValues);
-    //     }
-    // }, [formErrors])
-
-    // const validate = (values) => {
-    //     const errors = {};
-    //     const reg = /^\d{10}$/;
-    //     const reg1 =/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-
-    //     if (!values?.firstName){
-    //         errors.firstName="First Name is required"
-    //     }
-    //     else if(values.firstName?.length < 3) {
-    //         errors.firstName = "First Name must be between 3 to 8 alphabets!";
-    //     }else if (values.firstName?.length > 10) {
-    //         errors.firstName = "First Name too long!";
-    //     }
-    //     if (!values?.lastName){
-    //         errors.lastName="Last Name is required"
-    //     }
-    //     else if(values.lastName?.length < 3) {
-    //         errors.lastName = "Last Name must be between 3 to 8 alphabets!";
-    //     }else if (values.lastName?.length > 10) {
-    //         errors.lastName = "Last Name too long!";
-    //     }
-    //     if(!values?.email) {
-    //         errors.email = "Email is required!";
-    //     }else if (reg1.test(values?.email)) {
-    //         errors.email = "This is not a valid email format!";
-    //     }
-    //     if(!values?.telNum) {
-    //         errors.telNum = "Tel. number is required!";
-    //     }else if (reg.test(values?.telNum)) {
-    //         errors.telNum = "This is not a valid tel. number!";
-    //     }
-
-    //     return errors;
-    // }
-
+const ContactComponent = (props) => {
+    console.log(props)
+    const required = (val) => val && val.length;
+    const maxLength = (len) => (val) => !(val) || (val.length <= len);
+    const minLength = (len) => (val) => val && (val.length >= len);
+    const isNumber = (val) => !isNaN(Number(val));
+    const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
     const handleSubmit = (values) => {
         console.log('Current State is: ' + JSON.stringify(values));
         alert('Current State is: ' + JSON.stringify(values));
+        props.resetFeedbackForm();
         // event.preventDefault();
     }
 
@@ -214,14 +140,27 @@ const ContactComponent = () => {
                             </Col>
                         </FormGroup>
                     </Form> */}
-                    <LocalForm onSubmit={(values) => handleSubmit(values)}>
+                    <Form model="feedback" onSubmit={(values) => handleSubmit(values)}>
                             <Row className="form-group">
                                 <Label htmlFor="firstname" md={2}>First Name</Label>
                                 <Col md={10}>
                                     <Control.text model=".firstname" id="firstname" name="firstname"
                                         placeholder="First Name"
                                         className="form-control"
-                                         />
+                                        validators={{
+                                            required, minLength: minLength(3), maxLength: maxLength(15)
+                                        }}
+                                     />
+                                    <Errors
+                                        className="text-danger"
+                                        model=".firstname"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',
+                                            minLength: 'Must be greater than 2 characters',
+                                            maxLength: 'Must be 15 characters or less'
+                                        }}
+                                    />
                                 </Col>
                             </Row>
                             <Row className="form-group">
@@ -230,7 +169,20 @@ const ContactComponent = () => {
                                     <Control.text model=".lastname" id="lastname" name="lastname"
                                         placeholder="Last Name"
                                         className="form-control"
-                                         />
+                                        validators={{
+                                            required, minLength: minLength(3), maxLength: maxLength(15)
+                                        }}
+                                    />
+                                    <Errors
+                                        className="text-danger"
+                                        model=".lastname"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',
+                                            minLength: 'Must be greater than 2 characters',
+                                            maxLength: 'Must be 15 characters or less'
+                                        }}
+                                     />
                                 </Col>
                             </Row>
                             <Row className="form-group">
@@ -239,7 +191,21 @@ const ContactComponent = () => {
                                     <Control.text model=".telnum" id="telnum" name="telnum"
                                         placeholder="Tel. Number"
                                         className="form-control"
-                                         />
+                                        validators={{
+                                            required, minLength: minLength(3), maxLength: maxLength(15), isNumber
+                                        }}
+                                    />
+                                    <Errors
+                                        className="text-danger"
+                                        model=".telnum"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',
+                                            minLength: 'Must be greater than 2 numbers',
+                                            maxLength: 'Must be 15 numbers or less',
+                                            isNumber: 'Must be a number'
+                                        }}
+                                     />
                                 </Col>
                             </Row>
                             <Row className="form-group">
@@ -247,7 +213,20 @@ const ContactComponent = () => {
                                 <Col md={10}>
                                     <Control.text model=".email" id="email" name="email"
                                         placeholder="Email"
-                                        className="form-control" />
+                                        className="form-control"
+                                        validators={{
+                                            required, validEmail
+                                        }}
+                                        />
+                                    <Errors
+                                        className="text-danger"
+                                        model=".email"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',
+                                            validEmail: 'Invalid Email Address'
+                                        }}
+                                     />
                                 </Col>
                             </Row>
                             <Row className="form-group">
@@ -284,7 +263,7 @@ const ContactComponent = () => {
                                     </Button>
                                 </Col>
                             </Row>
-                        </LocalForm>
+                        </Form>
                 </div>
             </div>
         </div>

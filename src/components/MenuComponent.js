@@ -8,7 +8,7 @@ const MenuComponent = (props) => {
     // let [selectedDish,setSelectedDish] = useState(0)
     
     const menu = props.dishes.dishes.map((dish) => {
-        console.log(dish)
+        console.log(props.dishes)
         return (
             <div key = {dish.id} className = "col-12 col-md-5 m-1">
                 

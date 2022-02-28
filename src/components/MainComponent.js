@@ -33,7 +33,7 @@ const mapDispatchToProps = dispatch => {
     }
 }
 const MainComponent = (props) => {
-    console.log(props.comments.leaders)
+    console.log(props)
     
     useEffect(() => {
       props.fetchDishes();
