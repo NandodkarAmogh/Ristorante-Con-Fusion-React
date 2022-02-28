@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useEffect} from 'react';
 import HomeComponent from './HomeComponent';
 import HeaderComponent from './HeaderComponent';
 import FooterComponent from './FooterComponent';
 import MenuComponent from './MenuComponent';
 import ContactComponent from './ContactComponent';
 import DishdetailComponent from './DishdetailComponent';
-import DishdetailComponent1 from './DishdetailComponent1';
 import AboutComponent from './AboutComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect} from 'react-redux';
+import { actions } from 'react-redux-form';
 import { addComment } from '../redux/dishes/ActionCreators';
+import { fetchDishes } from '../redux';
 
 const mapStateToProps = state => {
     console.log(state)
@@ -17,7 +18,8 @@ const mapStateToProps = state => {
         dishes:state.dishes,
         comments: state.comments,
         promotions: state.promotions,
-        leaders: state.leaders
+        leaders: state.leaders,
+
         
         
     }
@@ -25,40 +27,43 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        addComment : (dishId,rating, author, comment) => dispatch(addComment(dishId,rating, author, comment))
+        addComment : (dishId,rating, author, comment) => dispatch(addComment(dishId,rating, author, comment)),
+        fetchDishes: () => {dispatch(fetchDishes())},
+        resetFeedbackForm: () => {dispatch(actions.reset('feedback'))}
     }
 }
 const MainComponent = (props) => {
-    console.log(props.addComment)
+    console.log(props.comments.leaders)
+    
+    useEffect(() => {
+      props.fetchDishes();
+    
+       
+    }, [])
     
     
     const DishWithId = ({match}) => {
         return (
-            <DishdetailComponent dish={props.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]}
-            comments={props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))}
+            <DishdetailComponent dish={props.dishes.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]}
+            comments={props.comments.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))}
             addComment = {props.addComment}
+            isLoading = {props.dishes.isLoading} 
+            errMess = {props.errMess}
             />
         )
     }
-    // const DishWithId = ({match}) => {
-    //     return (
-    //         <DishdetailComponent1 dish={props.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]}
-    //         comments={props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))}
-    //         addComment = {props.addComment}
-    //         />
-    //     )
-    // }
+    
     return (
         <div style={{backgroundColor: '#fafafa'}}>
             <HeaderComponent />
             
 
             <Switch>
-                <Route path="/home" component={() => <HomeComponent dishes={props.dishes} leaders={props.leaders} promotions={props.promotions}/>} />
-                <Route path="/aboutus" component={() => <AboutComponent leaders = {props.leaders} />} />
+                <Route path="/home" component={() => <HomeComponent dishes={props.dishes.dishes} leaders={props.comments.leaders} isLoading = {props.dishes.isLoading} errMess = {props.errMess} promotions={props.comments.promotions}/>} />
+                <Route path="/aboutus" component={() => <AboutComponent leaders = {props.comments.leaders} />} />
                 <Route exact path= "/menu" component={() => <MenuComponent dishes = {props.dishes} />} />
                 <Route path="/menu/:dishId" component={DishWithId} />
-                <Route exact path='/contactus' component ={ContactComponent} />
+                <Route exact path='/contactus' component ={() => <ContactComponent resetFeedbackForm = {props.resetFeedbackForm} />} />
                 <Redirect to="/home" />
             </Switch>
             <FooterComponent /> 

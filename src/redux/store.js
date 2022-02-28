@@ -1,13 +1,11 @@
 import { createStore, applyMiddleware } from "redux";
-import { combineReducers } from "redux";
 import logger from "redux-logger";
-import dishReducer, { dishInitialState } from "./dishes/dishReducer";
 import { composeWithDevTools } from 'redux-devtools-extension';
+import thunk from "redux-thunk";
+import rootReducer from "./rootReducer";
 
-// const rootReducer = combineReducers(dishReducer, Comments )
-// console.log(rootReducer)
-const store = createStore(dishReducer, composeWithDevTools(
-    applyMiddleware(logger),
+const store = createStore(rootReducer, composeWithDevTools(
+    applyMiddleware(logger,thunk),
 ))
 
 export default store 
