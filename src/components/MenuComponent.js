@@ -3,6 +3,7 @@ import { Card, CardImg, CardImgOverlay,CardTitle, CardBody, CardText, Breadcrumb
 import RenderCardComponent from './RenderCardComponent';
 import { Link } from 'react-router-dom';
 import LoadingComponent from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
 
 const MenuComponent = (props) => {
     // let [selectedDish,setSelectedDish] = useState(0)
@@ -14,7 +15,7 @@ const MenuComponent = (props) => {
                 
                 <Card>
                     <Link to={`/menu/${dish.id}`} >
-                        <CardImg width = "100%" src={dish.image} alt={dish.name} />
+                        <CardImg width = "100%" src={baseUrl + dish.image} alt={dish.name} />
                         <CardImgOverlay>
                             <CardTitle className='title'>{dish.name}</CardTitle>
                         </CardImgOverlay>

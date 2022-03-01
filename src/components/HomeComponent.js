@@ -1,8 +1,9 @@
 import React from 'react'
-import RenderCardComponent from './RenderCardComponent'
+import RenderCardComponent from './RenderCardComponent';
+import { baseUrl } from '../shared/baseUrl';
 
 
-const HomeComponent = ({dishes, leaders, promotions, isLoading, errMess}) => {
+const HomeComponent = ({dishes, leaders, promotions, promoLoading, promoErrMess, isLoading, errMess, leaderLoading, leaderErrMess}) => {
     console.log(promotions)
     const dish = dishes.filter((dish) => dish.featured === true)[0];
     const leader = leaders.filter((leader) => leader.featured === true)[0];
@@ -14,10 +15,10 @@ const HomeComponent = ({dishes, leaders, promotions, isLoading, errMess}) => {
                     <RenderCardComponent item = {dish} isLoading={isLoading} errMess={errMess}/>
                 </div>
                 <div className="col-12 col-md m-1">
-                    <RenderCardComponent item = {promotion} />
+                    <RenderCardComponent item = {promotion} isLoading={promoLoading} errMess={promoErrMess}/>
                 </div>
                 <div className="col-12 col-md m-1">
-                    <RenderCardComponent item = {leader} />
+                    <RenderCardComponent item = {leader} isLoading={leaderLoading} errMess={leaderErrMess} />
                 </div>
             </div>
         </div>

@@ -9,8 +9,7 @@ import AboutComponent from './AboutComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect} from 'react-redux';
 import { actions } from 'react-redux-form';
-import { addComment } from '../redux/dishes/ActionCreators';
-import { fetchDishes } from '../redux';
+import { addComment, fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux';
 
 const mapStateToProps = state => {
     console.log(state)
@@ -19,9 +18,6 @@ const mapStateToProps = state => {
         comments: state.comments,
         promotions: state.promotions,
         leaders: state.leaders,
-
-        
-        
     }
 }
 
@@ -29,6 +25,9 @@ const mapDispatchToProps = dispatch => {
     return {
         addComment : (dishId,rating, author, comment) => dispatch(addComment(dishId,rating, author, comment)),
         fetchDishes: () => {dispatch(fetchDishes())},
+        fetchComments: () => {dispatch(fetchComments())},
+        fetchPromos: () => {dispatch(fetchPromos())},
+        fetchLeaders: () => {dispatch(fetchLeaders())},
         resetFeedbackForm: () => {dispatch(actions.reset('feedback'))}
     }
 }
@@ -37,7 +36,10 @@ const MainComponent = (props) => {
     
     useEffect(() => {
       props.fetchDishes();
-    
+      props.fetchComments();
+      props.fetchLeaders();
+      props.fetchPromos();
+        
        
     }, [])
     
@@ -48,7 +50,8 @@ const MainComponent = (props) => {
             comments={props.comments.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))}
             addComment = {props.addComment}
             isLoading = {props.dishes.isLoading} 
-            errMess = {props.errMess}
+            errMess = {props.dishes.errMess}
+            commentsErrMess = {props.comments.errMess}
             />
         )
     }
@@ -59,8 +62,13 @@ const MainComponent = (props) => {
             
 
             <Switch>
-                <Route path="/home" component={() => <HomeComponent dishes={props.dishes.dishes} leaders={props.comments.leaders} isLoading = {props.dishes.isLoading} errMess = {props.errMess} promotions={props.comments.promotions}/>} />
-                <Route path="/aboutus" component={() => <AboutComponent leaders = {props.comments.leaders} />} />
+                <Route path="/home" component={() => <HomeComponent dishes={props.dishes.dishes} isLoading = {props.dishes.isLoading} leaders={props.leaders.leaders} promoLoading={props.promotions.isLoading} errMess = {props.dishes.errMess}
+                promoErrMess={props.promotions.errMess} 
+                leaderLoading = {props.leaders.isLoading}
+                leaderErrMess = {props.leaders.errMess}
+                promotions={props.promotions.promotions}/>} />
+                <Route path="/aboutus" component={() => <AboutComponent leaders = {props.leaders.leaders} leaderLoading = {props.leaders.isLoading}
+                leaderErrMess = {props.leaders.errMess}/>} />
                 <Route exact path= "/menu" component={() => <MenuComponent dishes = {props.dishes} />} />
                 <Route path="/menu/:dishId" component={DishWithId} />
                 <Route exact path='/contactus' component ={() => <ContactComponent resetFeedbackForm = {props.resetFeedbackForm} />} />

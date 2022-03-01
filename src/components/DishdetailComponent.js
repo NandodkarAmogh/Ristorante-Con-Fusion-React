@@ -4,6 +4,7 @@ import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardImg, CardTitle, CardTex
 import {Control, LocalForm, Errors} from 'react-redux-form';
 import LoadingComponent from './LoadingComponent'
 import { FadeTransform, Fade, Stagger } from 'react-animation-components';
+import { baseUrl } from '../shared/baseUrl';
 
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
@@ -53,7 +54,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
                 exitTransform: 'scale(0.5) translateY(-50%)'
             }}>
                 <Card>
-                    <CardImg width = "60%" src={dish.image} alt={dish.name} />
+                    <CardImg width = "60%" src={baseUrl + dish.image} alt={dish.name} />
                     <CardBody>
                         <CardTitle className='title'>{dish.name}</CardTitle>
                         <CardText>{dish.description}</CardText>   
