@@ -6,8 +6,23 @@ export const fetchLeaders = () => (dispatch) => {
     dispatch(leadersLoading());
 
     return fetch(baseUrl + 'leaders')
+    .then(response => {
+        if (response.ok) {
+            return response;
+          } else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+          }
+        },
+        error => {
+              var errmess = new Error(error.message);
+              throw errmess;
+        }
+    )
     .then(response => response.json())
-    .then(leaders => dispatch(addLeaders(leaders)));
+    .then(leaders => dispatch(addLeaders(leaders)))
+    .catch(error => dispatch(leadersFailed(error.message)));
 }
 
 export const leadersLoading = () => ({
