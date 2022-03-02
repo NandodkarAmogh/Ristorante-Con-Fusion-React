@@ -3,14 +3,15 @@ import { Link } from 'react-router-dom';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardImg, CardTitle, CardText, Button,Modal, ModalBody, ModalHeader, Form, FormGroup, Input, Label, Col,Row } from 'reactstrap';
 import {Control, LocalForm, Errors} from 'react-redux-form';
 import LoadingComponent from './LoadingComponent'
-import { FadeTransform, Fade, Stagger } from 'react-animation-components';
+// import { FadeTransform, Fade, Stagger } from 'react-animation-components';
+import { Fade, Zoom } from 'react-awesome-reveal';
 import { baseUrl } from '../shared/baseUrl';
 
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
 
      
-    const RenderComments = ({comments, addComment, dishId}) => {
+    const RenderComments = ({comments, postComment, dishId}) => {
         console.log(comments)
         if (comments == null)
         return (<div></div>);
@@ -18,7 +19,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
         const commentsList = comments.map((comment) => {
             let commentDate = new Date(Date.parse(comment.date));
             return(
-                <Fade in>
+                <Fade delay={2000}>
                 <li key = {comment.id}>
                     <p>{comment.comment}</p>
                     <p>
@@ -33,9 +34,9 @@ const minLength = (len) => (val) => val && (val.length >= len);
         <div>
             <h3>Comments</h3>
             <ul className="list-unstyled">
-            <Stagger in>
+            <Zoom in>
                 {commentsList}
-            </Stagger>
+            </Zoom>
 
             </ul>
         </div>
@@ -48,11 +49,8 @@ const minLength = (len) => (val) => val && (val.length >= len);
     const renderDish = (dish) => {
         if (dish != null ) {
         return(
-            <FadeTransform
-            in
-            transformProps={{
-                exitTransform: 'scale(0.5) translateY(-50%)'
-            }}>
+            <Fade
+            delay={1500}>
                 <Card>
                     <CardImg width = "60%" src={baseUrl + dish.image} alt={dish.name} />
                     <CardBody>
@@ -61,7 +59,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
                     </CardBody>
                     
                 </Card>
-            </FadeTransform>
+            </Fade>
         )}
         else {
             return (
@@ -111,10 +109,10 @@ const DishdetailComponent = (props) => {
                     </div>
                     <div className="col-12 col-md-5 m-1">
                         <RenderComments comments = {props.comments} 
-                            addComment = {props.addComment}
+                            postComment = {props.postComment}
                             dishId = {props.dish.id}
                         />
-                        <CommentForm dishId = {props.dish.id} addComment = {props.addComment}/>
+                        <CommentForm dishId = {props.dish.id} postComment = {props.postComment}/>
                     </div>
                 </div>
             </div>
@@ -136,7 +134,7 @@ const CommentForm = (props) => {
     const handleSubmit = (values) =>{
         toggleModal();
         
-        props.addComment(props.dishId, values.rating, values.name, values.comment);
+        props.postComment(props.dishId, values.rating, values.name, values.comment);
         console.log(props.dishId)
     }
     
@@ -205,7 +203,7 @@ const CommentForm = (props) => {
                     </ModalBody>
                 </Modal>
                 <RenderComments comments={props.comments}
-                    addComment={props.addComment}
+                    postComment={props.postComment}
                     dishId={props.dishId}
                 />                            
             </div>

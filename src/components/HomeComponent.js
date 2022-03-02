@@ -3,6 +3,7 @@ import RenderCardComponent from './RenderCardComponent';
 import { baseUrl } from '../shared/baseUrl';
 
 
+
 const HomeComponent = ({dishes, leaders, promotions, promoLoading, promoErrMess, isLoading, errMess, leaderLoading, leaderErrMess}) => {
     console.log(promotions)
     const dish = dishes.filter((dish) => dish.featured === true)[0];
