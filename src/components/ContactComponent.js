@@ -13,8 +13,11 @@ const ContactComponent = (props) => {
     const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
     const handleSubmit = (values) => {
         console.log('Current State is: ' + JSON.stringify(values));
-        alert('Current State is: ' + JSON.stringify(values));
+        const id = Math.floor(Math.random() * 50);
+        
+        // alert('Thank you for your Feedback:'  + JSON.stringify(values));
         props.resetFeedbackForm();
+        props.postFeedback(values.firstname, values.lastname, values.telnum, values.email, values.agree, values.contactType, values.message, id)
         // event.preventDefault();
     }
 
@@ -62,84 +65,6 @@ const ContactComponent = (props) => {
                     <h3>Send us Your Feedback</h3>
                 </div>
                 <div className="col-12 col-md-9">
-                    {/* <Form onSubmit={handleSubmit}>
-                        <FormGroup row>
-                            <Label htmlFor= "firstName" md={2}>
-                                First Name
-                            </Label>
-                            <Col md={10}>
-                                <Input type='text' id='firstName' name='firstName' 
-                                placeholder='First Name' value={formValues.firstName}
-                                onChange={handleInputChange} on/>
-                                <p className='error'>{formErrors.firstName}</p>
-                                
-                            </Col>
-                        </FormGroup>
-                        <FormGroup row>
-                            <Label htmlFor= "lastName" md={2}>
-                                Last Name
-                            </Label>
-                            <Col md={10}>
-                                <Input type='text' id='lastName' name='lastName'
-                                placeholder='Last Name' value={formValues.lastName}
-                                onChange={handleInputChange} />
-                                <p className='error'>{formErrors.lastName}</p>
-                                
-                            </Col>
-                        </FormGroup>
-                        <FormGroup row>
-                            <Label htmlFor= "telNum" md={2}>
-                                Contact Tel.
-                            </Label>
-                            <Col md={10}>
-                                <Input type='tel' id='telNum' name='telNum' placeholder='Tel. Number' value={formValues.telNum} 
-                                onChange={handleInputChange} />
-                                <p className='error'>{formErrors.telNum}</p>
-                            </Col>
-                        </FormGroup>
-                        <FormGroup row>
-                            <Label htmlFor= "email" md={2}>
-                                Email
-                            </Label>
-                            <Col md={10}>
-                                <Input type='email' id='email' name='email' placeholder='Email' 
-                                value={formValues.email}
-                                onChange={handleInputChange}/>
-                                <p className='error'>{formErrors.email}</p>
-                            </Col>
-                        </FormGroup>
-                        <FormGroup row>
-                            <Col md={{size: 6, offset: 2}}>
-                                <FormGroup check>
-                                    <Label check>
-                                        <Input type='checkbox' name='agree' checked={formValues.agree} onChange={handleInputChange} />{' '}<strong>May we contact you?</strong>
-                                    </Label>
-                                </FormGroup>
-                                
-                            </Col>
-                            <Col md={{size: 3, offset: 1}}>
-                                <Input type='select' name='contactType' value={formValues.contactType} onChange={handleInputChange} >
-                                    <option>Tel.</option>
-                                    <option>Email</option>
-                                </Input>
-                            </Col>
-                        </FormGroup>
-                        <FormGroup row>
-                            <Label htmlFor= "feedback" md={2}>
-                                Your Feedback
-                            </Label>
-                            <Col md={10}>
-                                <Input type='textarea' id='message' rows='12' name='message' value={formValues.message} onChange={handleInputChange} />
-                            </Col>
-                        </FormGroup>
-                        <FormGroup row>
-                            <Col md={{size:10, offset: 2}}>
-                                <Button type='submit' color='primary' >
-                                    Send Feedback
-                                </Button>
-                            </Col>
-                        </FormGroup>
-                    </Form> */}
                     <Form model="feedback" onSubmit={(values) => handleSubmit(values)}>
                             <Row className="form-group">
                                 <Label htmlFor="firstname" md={2}>First Name</Label>

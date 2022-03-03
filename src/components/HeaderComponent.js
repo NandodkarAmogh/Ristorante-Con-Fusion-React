@@ -18,10 +18,10 @@ const HeaderComponent = () => {
     }
     const handleLogin = (event) => {
         toggleModal();
-        alert("Username: " + username.value + " Password: " + password.value
-            + " Remember: " + remember.checked);
+        // alert("Username: " + username.value + " Password: " + password.value
+        //     + " Remember: " + remember.checked);
         event.preventDefault();
-        console.log(event)
+        // console.log(event)
     }
     
     console.log(isNavOpen)

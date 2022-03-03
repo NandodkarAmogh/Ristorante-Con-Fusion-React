@@ -1,70 +1,147 @@
-# Getting Started with Create React App
+# Ristorante Con Fusion
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Table of contents
 
-## Available Scripts
+- [Overview](#overview)
+  - [Demo](#demo)
+  - [Screenshot](#screenshot)
+    - [JSON Server](#json-server)
+    - [Desktop](#desktop)
+    - [Mobile](#mobile)
+  - [Links](#links)
+- [My process](#my-process)
+  - [Built with](#built-with)
+  - [What I learned](#what-i-learned)
+- [Author](#author)
 
-In the project directory, you can run:
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Overview
+This is a modern restaurant webpage featuring various serctions like about, menu and contact. The users get to post reviews of the dishes and also submit their feedback. The data is fetched from a JSON server that was set up for the project. 
+### Demo
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+![](./public/assets/images/demo.gif)
 
-### `npm test`
+### Screenshot
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### JSON Server
+![](./public/assets/images/db.png)
 
-### `npm run build`
+#### Desktop
+![](./public/assets/images/desktop1.png)
+![](./public/assets/images/desktop2.png)
+![](./public/assets/images/desktop3.png)
+![](./public/assets/images/desktop4.png)
+![](./public/assets/images/desktop5.png)
+![](./public/assets/images/desktop6.png)
+![](./public/assets/images/desktop7.png)
+![](./public/assets/images/desktop8.png)
+![](./public/assets/images/desktop9.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Mobile
+![](./public/assets/images/mobile1.png)
+![](./public/assets/images/mobile2.png)
+![](./public/assets/images/mobile3.png)
+![](./public/assets/images/mobile4.png)
+![](./public/assets/images/mobile5.png)
+![](./public/assets/images/mobile6.png)
+![](./public/assets/images/mobile7.png)
+![](./public/assets/images/mobile8.png)
+### Links
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Solution URL: []()
+- Live Site URL: []()
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## My process
 
-### `npm run eject`
+### Built with
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Mobile-first workflow
+- [React](https://reactjs.org/) - JS library
+- [React Router](https://reactrouter.com/) 
+- [Redux](https://redux.js.org/) - State management and actions
+- [Reactstrap](https://reactstrap.github.io/) - For styles
+- [React Awesoem Reveal](https://www.npmjs.com/package/react-awesome-reveal) - For Animations
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### What I learned
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+This project is a part of the frontend developemnt course where I learnt concepts like
+- React Components
+- React Router
+- SPA
+- React Forms
+- Redux for state management
+- Redux Actions
+- React Redux form
+- Client Server Communication (setting up a JSON server)
+- Fetch
+- React Animations
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+```react
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  // For posting comments to the server
+    export const postComment = (dishId, rating, author, comment) => (dispatch) => {
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    const newComment = {
+        dishId: dishId,
+        rating: rating,
+        author: author,
+        comment: comment
+    };
+    newComment.date = new Date().toISOString();
+    
+    return fetch(baseUrl + 'comments', {
+        method: "POST",
+        body: JSON.stringify(newComment),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "same-origin"
+    })
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+      },
+      error => {
+            throw error;
+      })
+    .then(response => response.json())
+    .then(response => dispatch(addComment(response)))
+    .catch(error =>  { console.log('post comments', error.message); alert('Your comment could not be posted\nError: '+error.message); });
+};
 
-### Code Splitting
+//for fetching comments from server
+export const fetchComments = () => (dispatch) => {    
+    return fetch(baseUrl + 'comments')
+    .then(response => {
+        if (response.ok) {
+            return response;
+          } else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+          }
+        },
+        error => {
+              var errmess = new Error(error.message);
+              throw errmess;
+        }
+    )
+    .then(response => response.json())
+    .then(comments => dispatch(addComments(comments)))
+    .catch(error => dispatch(commentsFailed(error.message)));
+};
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```
+## Author
 
-### Analyzing the Bundle Size
+- Github - [@NandodkarAmogh](https://github.com/NandodkarAmogh)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

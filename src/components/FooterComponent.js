@@ -43,7 +43,7 @@ const FooterComponent = () => {
                 </div>
                 <div className="row justify-content-center">             
                     <div className="col-auto">
-                        <p>© Copyright 2018 Ristorante Con Fusion</p>
+                        <p>© Copyright 2022 Ristorante Con Fusion</p>
                     </div>
                 </div>
             </div>
