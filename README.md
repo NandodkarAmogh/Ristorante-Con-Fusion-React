@@ -17,7 +17,7 @@
 
 
 ## Overview
-This is a modern restaurant webpage featuring various serctions like about, menu and contact. The users get to post reviews of the dishes and also submit their feedback. The data is fetched from a JSON server that was set up for the project. 
+This is a modern restaurant webpage featuring various sections like about, menu and contact. The users get to post reviews of the dishes and also submit their feedback. The data is fetched from a JSON server that was set up for the project. 
 ### Demo
 
 ![](./public/assets/images/demo.gif)
@@ -49,7 +49,7 @@ This is a modern restaurant webpage featuring various serctions like about, menu
 ![](./public/assets/images/mobile8.png)
 ### Links
 
-- Solution URL: []()
+- Solution URL: [https://github.com/NandodkarAmogh/Ristorante-Con-Fusion-React](https://github.com/NandodkarAmogh/Ristorante-Con-Fusion-React)
 - Live Site URL: []()
 
 ## My process
