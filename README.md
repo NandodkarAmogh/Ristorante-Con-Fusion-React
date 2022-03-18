@@ -36,7 +36,7 @@ This is a modern restaurant webpage featuring various sections like about, menu 
 
 ### Links
 
-- Solution URL: [https://github.com/NandodkarAmogh/Ristorante-Con-Fusion-React](https://github.com/NandodkarAmogh/Ristorante-Con-Fusion-React)
+- Solution URL: [https://github.com/NandodkarAmogh/Ristorante-Con-Fusion-React/tree/main](https://github.com/NandodkarAmogh/Ristorante-Con-Fusion-React/tree/main)
 - Live Site URL: [https://ristorante-con-fusion-upgraded.netlify.app/](https://ristorante-con-fusion-upgraded.netlify.app/)
 
 ## My process
