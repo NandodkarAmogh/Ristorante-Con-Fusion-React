@@ -1,4 +1,3 @@
-import { baseUrl } from '../../shared/baseUrl';
 import * as ActionTypes from './leaderTypes';
 import { LEADERS } from '../../shared/leaders';
 

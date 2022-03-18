@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Button, Label, Input, Col, Row } from 'reactstrap';
 import { Form, Control, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
@@ -12,13 +12,11 @@ const ContactComponent = (props) => {
     const isNumber = (val) => !isNaN(Number(val));
     const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
     const handleSubmit = (values) => {
-        console.log('Current State is: ' + JSON.stringify(values));
+        // console.log('Current State is: ' + JSON.stringify(values));
         const id = Math.floor(Math.random() * 50);
-        
-        // alert('Thank you for your Feedback:'  + JSON.stringify(values));
         props.resetFeedbackForm();
         props.postFeedback(values.firstname, values.lastname, values.telnum, values.email, values.agree, values.contactType, values.message, id)
-        // event.preventDefault();
+       
     }
 
     return (

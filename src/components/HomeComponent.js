@@ -1,7 +1,5 @@
 import React from 'react'
 import RenderCardComponent from './RenderCardComponent';
-import { baseUrl } from '../shared/baseUrl';
-import { Card, CardImg, CardBody, CardText, CardTitle, CardSubtitle } from 'reactstrap';
 import RenderDishComponent from './RenderDishComponent';
 
 

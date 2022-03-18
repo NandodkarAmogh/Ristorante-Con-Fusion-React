@@ -5,7 +5,6 @@
 - [Overview](#overview)
   - [Demo](#demo)
   - [Screenshot](#screenshot)
-    - [JSON Server](#json-server)
     - [Desktop](#desktop)
     - [Mobile](#mobile)
   - [Links](#links)
@@ -17,15 +16,12 @@
 
 
 ## Overview
-This is a modern restaurant webpage featuring various sections like about, menu and contact. The users get to post reviews of the dishes and also submit their feedback. The data is fetched from a JSON server that was set up for the project. 
+This is a modern restaurant webpage featuring various sections like about, menu and contact. The users get to post reviews of the dishes and also submit their feedback. The data is fetched from a free meal API. 
 ### Demo
 
-![](./public/assets/images/demo.gif)
+![](./public/assets/images/demo_new.gif)
 
 ### Screenshot
-
-#### JSON Server
-![](./public/assets/images/db.png)
 
 #### Desktop
 ![](./public/assets/images/desktop1.png)
@@ -36,17 +32,8 @@ This is a modern restaurant webpage featuring various sections like about, menu 
 ![](./public/assets/images/desktop6.png)
 ![](./public/assets/images/desktop7.png)
 ![](./public/assets/images/desktop8.png)
-![](./public/assets/images/desktop9.png)
 
-#### Mobile
-![](./public/assets/images/mobile1.png)
-![](./public/assets/images/mobile2.png)
-![](./public/assets/images/mobile3.png)
-![](./public/assets/images/mobile4.png)
-![](./public/assets/images/mobile5.png)
-![](./public/assets/images/mobile6.png)
-![](./public/assets/images/mobile7.png)
-![](./public/assets/images/mobile8.png)
+
 ### Links
 
 - Solution URL: [https://github.com/NandodkarAmogh/Ristorante-Con-Fusion-React](https://github.com/NandodkarAmogh/Ristorante-Con-Fusion-React)
@@ -61,11 +48,13 @@ This is a modern restaurant webpage featuring various sections like about, menu 
 - [React Router](https://reactrouter.com/) 
 - [Redux](https://redux.js.org/) - State management and actions
 - [Reactstrap](https://reactstrap.github.io/) - For styles
-- [React Awesoem Reveal](https://www.npmjs.com/package/react-awesome-reveal) - For Animations
+- [React Awesome Reveal](https://www.npmjs.com/package/react-awesome-reveal) - For Animations
+- [Free Meal API] (https://www.themealdb.com/api.php)
 
 ### What I learned
 
-This project is a part of the frontend developemnt course where I learnt concepts like
+I have tried to improve on the my previous restaurant website where I learned
+
 - React Components
 - React Router
 - SPA
@@ -80,63 +69,34 @@ This project is a part of the frontend developemnt course where I learnt concept
 
 ```react
 
-  // For posting comments to the server
-    export const postComment = (dishId, rating, author, comment) => (dispatch) => {
+//for fetching dishes from api
+export const fetchDishes = (string) => (dispatch) => {
 
-    const newComment = {
-        dishId: dishId,
-        rating: rating,
-        author: author,
-        comment: comment
-    };
-    newComment.date = new Date().toISOString();
+    dispatch(dishesLoading(true));
+
+    return setTimeout(() => {
+        
+        fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${string}`)
+        .then(response => {
+            if (response.ok) {
+                return response;
+            } else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                error.response = response;
+                throw error;
+            }
+            },
+            error => {
+                var errmess = new Error(error.message);
+                throw errmess;
+            }
+        )
+        .then(response => response.json())
+        .then(dishes => dispatch(addDishes(dishes)))
+        .catch(error => dispatch(dishesFailed(error.message)));
+    }, 2000);
     
-    return fetch(baseUrl + 'comments', {
-        method: "POST",
-        body: JSON.stringify(newComment),
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: "same-origin"
-    })
-    .then(response => {
-        if (response.ok) {
-          return response;
-        } else {
-          var error = new Error('Error ' + response.status + ': ' + response.statusText);
-          error.response = response;
-          throw error;
-        }
-      },
-      error => {
-            throw error;
-      })
-    .then(response => response.json())
-    .then(response => dispatch(addComment(response)))
-    .catch(error =>  { console.log('post comments', error.message); alert('Your comment could not be posted\nError: '+error.message); });
-};
-
-//for fetching comments from server
-export const fetchComments = () => (dispatch) => {    
-    return fetch(baseUrl + 'comments')
-    .then(response => {
-        if (response.ok) {
-            return response;
-          } else {
-            var error = new Error('Error ' + response.status + ': ' + response.statusText);
-            error.response = response;
-            throw error;
-          }
-        },
-        error => {
-              var errmess = new Error(error.message);
-              throw errmess;
-        }
-    )
-    .then(response => response.json())
-    .then(comments => dispatch(addComments(comments)))
-    .catch(error => dispatch(commentsFailed(error.message)));
-};
+}
 
 ```
 ## Author

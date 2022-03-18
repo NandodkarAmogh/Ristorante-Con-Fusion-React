@@ -10,8 +10,8 @@ const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
 
      
-    const RenderComments = ({comments, addComment, dishId}) => {
-        console.log(comments)
+    const RenderComments = ({comments}) => {
+        
         if (comments == null)
         return (<div></div>);
 
@@ -46,7 +46,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
 
  
     const renderDish = (dish) => {
-        console.log(dish[0])
+        
         if (dish != null ) {
         return(
             <Fade
@@ -70,8 +70,8 @@ const minLength = (len) => (val) => val && (val.length >= len);
 
 
 const DishdetailComponent = (props) => {
-    // props.comments.map(c => console.log(c))
-    console.log(props.comments[0].dishId)
+    
+    
     if(props.isLoading) {
         return (
             <div className='background'>
@@ -137,7 +137,7 @@ const DishdetailComponent = (props) => {
 
 
 const CommentForm = (props) => {
-    console.log(props)
+    
     const [isModalOpen, setIsModalOpen] = useState(false);
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
@@ -146,7 +146,7 @@ const CommentForm = (props) => {
         toggleModal();
         
         props.addComment(props.dishId, values.rating, values.name, values.comment);
-        console.log(props.dishId)
+        
     }
     
         return (

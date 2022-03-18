@@ -1,4 +1,3 @@
-import { baseUrl } from '../../shared/baseUrl';
 import * as ActionTypes from './promotionTypes';
 import { PROMOTIONS } from '../../shared/promotions';
 
