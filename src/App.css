@@ -11,25 +11,52 @@
 }
 
 .footer{
-  background-color: #D1C4E9;
+  background-color: #98B4AA;
   margin:0px auto;
   padding: 20px 0px 20px 0px;
+  color: #495371;
 }
+
+.login {
+  background-color: #98B4AA;
+}
+
+.footer-color{
+  color: #495371;
+}
+.footer > a >i{
+  color: #495371;
+}
+
 .jumbotron {
-  padding:70px 30px 70px 30px;
+  /* padding:100px 30px 70px 30px; */
   margin:0px auto;
-  background: #9575CD ;
-  color:floralwhite;
+  height: 40vh;
+  /* background: #9575CD ;
+  color:floralwhite; */
+  background:linear-gradient(rgba(8, 8, 8, 0.5), rgba(160, 153, 153, 0.5)), url('./images/jumbotron2.jpg') 50% no-repeat ;
+  background-size: cover;
+  /* background-color: #94618E; */
+  color: #EEEEEE;
+
+}
+
+.btn {
+  color: #495371;
+}
+
+.background {
+  background-color: #D1D1D1;
 }
 
 address{
   font-size:80%;
   margin:0px;
-  color:#0f0f0f;
+  color: #495371;
 }
 
 .navbar-dark {
-  background-color: #512DA8;
+  background-color: #495371;
 }
 
 .title{

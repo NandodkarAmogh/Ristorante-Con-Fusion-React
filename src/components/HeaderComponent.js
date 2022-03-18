@@ -44,7 +44,7 @@ const HeaderComponent = () => {
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink className="nav-link" to="/menu"><span className='fa fa-list fa-lg'></span> Menu
+                                <NavLink className="nav-link" to="/categories"><span className='fa fa-list fa-lg'></span> Menu
                                 </NavLink>
                             </NavItem>
                             <NavItem>
@@ -52,13 +52,13 @@ const HeaderComponent = () => {
                                 </NavLink>
                             </NavItem>
                         </Nav>
-                        <Nav className='ml-auto' navbar>
+                        {/* <Nav className='ml-auto' navbar>
                             <NavItem>
-                                <Button outline onClick={toggleModal}>
+                                <Button className='login' outline onClick={toggleModal}>
                                     <span className='fa fa-sign-in fa-lg'></span>Login
                                 </Button>
                             </NavItem>
-                        </Nav>
+                        </Nav> */}
                     </Collapse>      
                 {/* </div>   */}
             </Navbar>
